@@ -20,7 +20,7 @@ extern "C" {
 #ifdef _WIN32
 #define EB_API __declspec(dllexport)
 #else
-#ifdef __EB_EXPORTS
+#ifdef EB_EXPORTS
 #define EB_API
 #else
 #define EB_API extern
