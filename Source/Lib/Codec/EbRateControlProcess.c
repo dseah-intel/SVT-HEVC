@@ -17,6 +17,8 @@
 #include "EbRateControlResults.h"
 #include "EbRateControlTasks.h"
 
+#include "EbBuildConfig.h"
+
 
 static const EB_U8 MOD_QP_OFFSET_LAYER_ARRAY[MAX_HIERARCHICAL_LEVEL][MAX_TEMPORAL_LAYERS] = { // [Highest Temporal Layer] [Temporal Layer Index]
 	{ 1 },
@@ -2247,7 +2249,7 @@ void* RateControlKernel(void *inputPtr)
 
             pictureControlSetPtr = (PictureControlSet_t*)rateControlTasksPtr->pictureControlSetWrapperPtr->objectPtr;
             sequenceControlSetPtr = (SequenceControlSet_t*)pictureControlSetPtr->sequenceControlSetWrapperPtr->objectPtr;
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
             printf("POC %lld RC IN \n", pictureControlSetPtr->pictureNumber);
 #endif
             // High level RC
@@ -2512,7 +2514,7 @@ void* RateControlKernel(void *inputPtr)
             rateControlResultsPtr = (RateControlResults_t*)rateControlResultsWrapperPtr->objectPtr;
             rateControlResultsPtr->pictureControlSetWrapperPtr = rateControlTasksPtr->pictureControlSetWrapperPtr;
 
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
             printf("POC %lld RC OUT \n", pictureControlSetPtr->pictureNumber);
 #endif
 
@@ -2721,7 +2723,7 @@ void* RateControlKernel(void *inputPtr)
 
 			// Release the SequenceControlSet
 			EbReleaseObject(parentPictureControlSetPtr->sequenceControlSetWrapperPtr);
-#if ONE_MEMCPY 
+#if EB_BUILD_CONFIG_ONE_MEMCPY
             // Release the input buffer
             EbReleaseObject(parentPictureControlSetPtr->ebInputWrapperPtr);
 #endif		

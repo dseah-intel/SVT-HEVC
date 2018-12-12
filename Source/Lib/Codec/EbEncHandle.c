@@ -52,6 +52,9 @@
 
 #include "EbPredictionStructure.h"
 #include "EbBitstreamUnit.h"
+
+#include "EbBuildConfig.h"
+
 #ifdef _WIN32
 #include <windows.h>
 #else
@@ -1128,7 +1131,7 @@ EB_API EB_ERRORTYPE EbInitEncoder(EB_COMPONENTTYPE *h265EncComponent)
 
     // Output Buffer Fifo Ptrs
     for(instanceIndex=0; instanceIndex < encHandlePtr->encodeInstanceTotalCount; ++instanceIndex) {
-#if CHKN_OMX
+#if EB_BUILD_CONFIG_CHKN_OMX
 		encHandlePtr->sequenceControlSetInstanceArray[instanceIndex]->encodeContextPtr->streamOutputFifoPtr  = (encHandlePtr->outputStreamBufferProducerFifoPtrDblArray[instanceIndex])[0];
 #else
         encHandlePtr->sequenceControlSetInstanceArray[instanceIndex]->encodeContextPtr->streamOutputFifoPtr  = (encHandlePtr->outputStreamBufferConsumerFifoPtrDblArray[instanceIndex])[0];
@@ -1394,7 +1397,7 @@ EB_API EB_ERRORTYPE EbInitEncoder(EB_COMPONENTTYPE *h265EncComponent)
     // Packetization
     EB_CREATETHREAD(EB_HANDLE, encHandlePtr->packetizationThreadHandle, sizeof(EB_HANDLE), EB_THREAD, PacketizationKernel, encHandlePtr->packetizationContextPtr);
 
-#if DISPLAY_MEMORY
+#if EB_BUILD_CONFIG_DISPLAY_MEMORY
     EB_MEMORY();
 #endif
     return return_error;
@@ -2872,7 +2875,7 @@ EB_API EB_ERRORTYPE EbH265EncStreamHeader(
 **** Copy the input buffer from the 
 **** sample application to the library buffers
 ************************************************/
-#if !ONE_MEMCPY
+#if !EB_BUILD_CONFIG_ONE_MEMCPY
 EB_ERRORTYPE CopyFrameBuffer(
     SequenceControlSet_t        *sequenceControlSet,
     EB_U8      			        *dst,
@@ -3124,7 +3127,7 @@ static void CopyInputBuffer(
 
     // Copy the picture buffer
     if(src->pBuffer != NULL)
-#if ONE_MEMCPY
+#if EB_BUILD_CONFIG_ONE_MEMCPY
         CopyFrameBuffer(sequenceControlSet, dst->pBuffer, src->pBuffer);
 #else
         CopyFrameBuffer(sequenceControlSet, dst->pBuffer, src->pBuffer);
@@ -3361,7 +3364,7 @@ EB_ERRORTYPE InitH265EncoderHandle(
     
     return return_error;
 }
-#if ONE_MEMCPY
+#if EB_BUILD_CONFIG_ONE_MEMCPY
 EB_ERRORTYPE AllocateFrameBuffer(
     SequenceControlSet_t       *sequenceControlSetPtr,
     EB_BUFFERHEADERTYPE        *inputBuffer)
@@ -3494,14 +3497,14 @@ EB_ERRORTYPE EbInputBufferHeaderCtor(
 {
     EB_BUFFERHEADERTYPE* inputBuffer;
     SequenceControlSet_t        *sequenceControlSetPtr = (SequenceControlSet_t*)objectInitDataPtr;
-#if !ONE_MEMCPY 
+#if !EB_BUILD_CONFIG_ONE_MEMCPY
     EB_H265_ENC_CONFIGURATION   *config = &sequenceControlSetPtr->staticConfig;
 #endif
     EB_MALLOC(EB_BUFFERHEADERTYPE*, inputBuffer, sizeof(EB_BUFFERHEADERTYPE), EB_N_PTR);
     *objectDblPtr = (EB_PTR)inputBuffer;
     // Initialize Header
     inputBuffer->nSize = sizeof(EB_BUFFERHEADERTYPE);
-#if !ONE_MEMCPY 
+#if !EB_BUILD_CONFIG_ONE_MEMCPY
     // Allocate frame buffer for the pBuffer
     AllocateFrameBuffer(
         config,
@@ -3525,7 +3528,7 @@ EB_ERRORTYPE EbOutputBufferHeaderCtor(
     EB_PTR *objectDblPtr, 
     EB_PTR objectInitDataPtr) 
 {
-#if CHKN_OMX
+#if EB_BUILD_CONFIG_CHKN_OMX
     EB_H265_ENC_CONFIGURATION   * config = (EB_H265_ENC_CONFIGURATION*)objectInitDataPtr;
     EB_U32 nStride = (EB_U32)(EB_OUTPUTSTREAMBUFFERSIZE_MACRO(config->sourceWidth * config->sourceHeight));  //TBC
 	EB_BUFFERHEADERTYPE* outBufPtr;

@@ -21,6 +21,8 @@
 #include "EbReferenceObject.h"
 #include "EbTime.h"
 
+#include "EbBuildConfig.h"
+
 /************************************************
  * Resource Coordination Context Constructor
  ************************************************/
@@ -439,7 +441,7 @@ void* ResourceCoordinationKernel(void *inputPtr)
     EB_BOOL                          is16BitInput;
 
 	EB_U32							inputSize = 0;
-#if CHKN_EOS
+#if EB_BUILD_CONFIG_CHKN_EOS
 	EbObjectWrapper_t               * prevPictureControlSetWrapperPtr = 0;
 #endif
     for(;;) {
@@ -579,7 +581,7 @@ void* ResourceCoordinationKernel(void *inputPtr)
         inputPictureWrapperPtr  = 0;
         inputPicturePtr         = 0;
 
-#if ONE_MEMCPY 
+#if EB_BUILD_CONFIG_ONE_MEMCPY
         // assign the input picture
         pictureControlSetPtr->enhancedPicturePtr = (EbPictureBufferDesc_t*)ebInputPtr->pBuffer;
         // start latency measure as soon as we copy input picture from buffer
@@ -621,7 +623,7 @@ void* ResourceCoordinationKernel(void *inputPtr)
         pictureControlSetPtr->sequenceControlSetWrapperPtr    = contextPtr->sequenceControlSetActiveArray[instanceIndex];
         pictureControlSetPtr->inputPictureWrapperPtr          = inputPictureWrapperPtr;
 
-#if ! CHKN_EOS
+#if !EB_BUILD_CONFIG_CHKN_EOS
         pictureControlSetPtr->endOfSequenceFlag               = endOfSequenceFlag;
 #endif
             
@@ -684,7 +686,7 @@ void* ResourceCoordinationKernel(void *inputPtr)
         // Picture Stats
         pictureControlSetPtr->pictureNumber                   = contextPtr->pictureNumberArray[instanceIndex]++;
 
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld RESCOOR IN \n", pictureControlSetPtr->pictureNumber);
 #endif    
         // Set the picture structure: 0: progressive, 1: top, 2: bottom
@@ -716,7 +718,7 @@ void* ResourceCoordinationKernel(void *inputPtr)
         ((EbPaReferenceObject_t*)pictureControlSetPtr->paReferencePictureWrapperPtr->objectPtr)->inputPaddedPicturePtr->bufferY = inputPicturePtr->bufferY;
 
         // Get Empty Output Results Object
-#if CHKN_EOS
+#if EB_BUILD_CONFIG_CHKN_EOS
 		if (pictureControlSetPtr->pictureNumber > 0)
 		{
 			((PictureParentControlSet_t       *)prevPictureControlSetWrapperPtr->objectPtr)->endOfSequenceFlag = endOfSequenceFlag;
@@ -745,7 +747,7 @@ void* ResourceCoordinationKernel(void *inputPtr)
 #endif
 
 
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld RESCOOR OUT \n", pictureControlSetPtr->pictureNumber);
 #endif
         // Release the Input Buffer

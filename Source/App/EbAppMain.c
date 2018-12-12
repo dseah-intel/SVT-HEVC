@@ -21,6 +21,7 @@
 #include "EbAppConfig.h"
 #include "EbAppContext.h"
 #include "EbTime.h"
+#include "EbBuildConfig.h"
 #if !__linux
 #include <Windows.h>
 #else
@@ -202,7 +203,7 @@ int main(int argc, char* argv[])
                         exitConditionsInput[instanceCount]  = APP_ExitConditionError;
                     }
 
-#if DISPLAY_MEMORY
+#if EB_BUILD_CONFIG_DISPLAY_MEMORY
                     EB_APP_MEMORY();
 #endif
                 }

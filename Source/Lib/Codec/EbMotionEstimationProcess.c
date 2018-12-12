@@ -16,6 +16,7 @@
 #include "EbIntraPrediction.h"
 #include "EbLambdaRateTables.h"
 #include "EbComputeSAD.h"
+#include "EbBuildConfig.h"
 
 #include "emmintrin.h"
 
@@ -953,7 +954,7 @@ void* MotionEstimationKernel(void *inputPtr)
 		sixteenthDecimatedPicturePtr = (EbPictureBufferDesc_t*)paReferenceObject->sixteenthDecimatedPicturePtr;
         inputPaddedPicturePtr = (EbPictureBufferDesc_t*)paReferenceObject->inputPaddedPicturePtr;
 		inputPicturePtr = pictureControlSetPtr->enhancedPicturePtr;
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld ME IN \n", pictureControlSetPtr->pictureNumber);
 #endif
 		// Segments
@@ -1248,7 +1249,7 @@ void* MotionEstimationKernel(void *inputPtr)
 				}
 			}
 		}
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld ME OUT \n", pictureControlSetPtr->pictureNumber);
 #endif
         EbReleaseMutex(pictureControlSetPtr->rcDistortionHistogramMutex);

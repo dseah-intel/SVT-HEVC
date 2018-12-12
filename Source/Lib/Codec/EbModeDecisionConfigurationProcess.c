@@ -18,6 +18,8 @@
 #include "EbLambdaRateTables.h"
 #include "EbReferenceObject.h"
 
+#include "EbBuildConfig.h"
+
 // Shooting states
 #define UNDER_SHOOTING                        0
 #define OVER_SHOOTING                         1
@@ -2209,7 +2211,7 @@ void* ModeDecisionConfigurationKernel(void *inputPtr)
 		rateControlResultsPtr = (RateControlResults_t*)rateControlResultsWrapperPtr->objectPtr;
 		pictureControlSetPtr = (PictureControlSet_t*)rateControlResultsPtr->pictureControlSetWrapperPtr->objectPtr;
 		sequenceControlSetPtr = (SequenceControlSet_t*)pictureControlSetPtr->sequenceControlSetWrapperPtr->objectPtr;
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld MDC IN \n", pictureControlSetPtr->pictureNumber);
 #endif
         // Mode Decision Configuration Kernel Signal(s) derivation
@@ -2366,7 +2368,7 @@ void* ModeDecisionConfigurationKernel(void *inputPtr)
             pictureControlSetPtr->ParentPcsPtr->averageQp = (EB_U8)pictureControlSetPtr->ParentPcsPtr->pictureQp; 
         }
 
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld MDC OUT \n", pictureControlSetPtr->pictureNumber);
 #endif
         // Post the results to the MD processes

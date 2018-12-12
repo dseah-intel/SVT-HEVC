@@ -16,6 +16,9 @@
 #include "EbPictureDemuxResults.h"
 #include "EbPictureOperators.h"
 #include "EbMotionEstimationContext.h"
+
+#include "EbBuildConfig.h"
+
 #include "emmintrin.h"
 /**************************************
 * Macros
@@ -1424,7 +1427,7 @@ void* SourceBasedOperationsKernel(void *inputPtr)
         pictureControlSetPtr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->objectPtr;
 		sequenceControlSetPtr = (SequenceControlSet_t*)pictureControlSetPtr->sequenceControlSetWrapperPtr->objectPtr;
 
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld SRC IN \n", pictureControlSetPtr->pictureNumber);
 #endif
 		pictureControlSetPtr->darkBackGroundlightForeGround = EB_FALSE;
@@ -1673,7 +1676,7 @@ void* SourceBasedOperationsKernel(void *inputPtr)
             }
         }
 
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld SRC OUT \n", pictureControlSetPtr->pictureNumber);
 #endif
 

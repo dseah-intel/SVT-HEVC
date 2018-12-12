@@ -20,6 +20,8 @@
 #include "EbErrorCodes.h"
 #include "EbErrorHandling.h"
 
+#include "EbBuildConfig.h"
+
 /**************************************
 * Macros
 **************************************/
@@ -924,7 +926,7 @@ void* InitialRateControlKernel(void *inputPtr)
 
 		inputResultsPtr = (MotionEstimationResults_t*)inputResultsWrapperPtr->objectPtr;
 		pictureControlSetPtr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->objectPtr;
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld IRC IN \n", pictureControlSetPtr->pictureNumber);
 #endif
         pictureControlSetPtr->meSegmentsCompletionMask++;
@@ -1118,7 +1120,7 @@ void* InitialRateControlKernel(void *inputPtr)
 						1);
 					//OPTION 1:  get the buffer in resource coordination
 
-#if CHKN_OMX
+#if EB_BUILD_CONFIG_CHKN_OMX
 					EbGetEmptyObject(
 						sequenceControlSetPtr->encodeContextPtr->streamOutputFifoPtr,
 						&outputStreamWrapperPtr);
@@ -1149,7 +1151,7 @@ void* InitialRateControlKernel(void *inputPtr)
 				}
 			}
 		}
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld IRC OUT \n", pictureControlSetPtr->pictureNumber);
 #endif
 		// Release the Input Results

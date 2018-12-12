@@ -22,6 +22,8 @@
 #include "EbErrorCodes.h"
 #include "EbErrorHandling.h"
 
+#include "EbBuildConfig.h"
+
 /************************************************
  * Defines
  ************************************************/
@@ -175,7 +177,7 @@ void* PictureManagerKernel(void *inputPtr)
             sequenceControlSetPtr           = (SequenceControlSet_t*) pictureControlSetPtr->sequenceControlSetWrapperPtr->objectPtr;
             encodeContextPtr                = sequenceControlSetPtr->encodeContextPtr; 
 
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
             printf("POC %lld PM IN \n", pictureControlSetPtr->pictureNumber);
 #endif
            //printf("\nPicture Manager Process @ %d \n ", pictureControlSetPtr->pictureNumber);
@@ -468,7 +470,7 @@ void* PictureManagerKernel(void *inputPtr)
 				   EbReleaseObject(pictureControlSetPtr->referencePictureWrapperPtr);
 				   pictureControlSetPtr->referencePictureWrapperPtr = (EbObjectWrapper_t*)EB_NULL;
 			   }
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
                printf("POC %lld PM OUT \n", pictureControlSetPtr->pictureNumber);
 #endif
 			   // Release the Picture Manager Reorder Queue

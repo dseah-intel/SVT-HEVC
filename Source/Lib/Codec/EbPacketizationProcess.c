@@ -19,6 +19,8 @@
 #include "EbErrorCodes.h"
 #include "EbTime.h"
 
+#include "EbBuildConfig.h"
+
 static EB_BOOL IsPassthroughData(EbLinkedListNode* dataNode)
 {   return dataNode->passthrough;   }
 
@@ -101,7 +103,7 @@ void* PacketizationKernel(void *inputPtr)
         pictureControlSetPtr    = (PictureControlSet_t*)    entropyCodingResultsPtr->pictureControlSetWrapperPtr->objectPtr;
         sequenceControlSetPtr   = (SequenceControlSet_t*)   pictureControlSetPtr->sequenceControlSetWrapperPtr->objectPtr;
         encodeContextPtr        = (EncodeContext_t*)        sequenceControlSetPtr->encodeContextPtr;
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld PK IN \n", pictureControlSetPtr->pictureNumber);
 #endif
         //****************************************************
@@ -643,7 +645,7 @@ void* PacketizationKernel(void *inputPtr)
  
 
         }
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld PK OUT \n", pictureControlSetPtr->pictureNumber);
 #endif     
     }

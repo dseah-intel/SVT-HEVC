@@ -8,6 +8,7 @@
 #include "EbDefinitions.h"
 #include "EbPictureControlSet.h"
 #include "EbPictureBufferDesc.h"
+#include "EbBuildConfig.h"
 
 EB_ERRORTYPE PictureControlSetCtor(
     EB_PTR *objectDblPtr, 
@@ -590,7 +591,7 @@ EB_ERRORTYPE PictureParentControlSetCtor(
     objectPtr->inputPictureWrapperPtr = (EbObjectWrapper_t *)EB_NULL;
     objectPtr->referencePictureWrapperPtr = (EbObjectWrapper_t *)EB_NULL;
 
-#if !ONE_MEMCPY 
+#if !EB_BUILD_CONFIG_ONE_MEMCPY
     EbPictureBufferDescInitData_t inputPictureBufferDescInitData;
     // Init Picture Init data
     inputPictureBufferDescInitData.maxWidth            = initDataPtr->pictureWidth;

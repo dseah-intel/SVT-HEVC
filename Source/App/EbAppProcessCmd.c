@@ -15,6 +15,8 @@
 #include "EbErrorCodes.h"
 
 #include "EbTime.h"
+
+#include "EbBuildConfig.h"
 /***************************************
  * Macros
  ***************************************/
@@ -1216,7 +1218,7 @@ APPEXITCONDITIONTYPE ProcessInputBuffer(
         headerPtr->pts          = config->processedFrameCount-1;
         headerPtr->sliceType    = INVALID_SLICE;
 
-#if CHKN_EOS
+#if EB_BUILD_CONFIG_CHKN_EOS
         headerPtr->nFlags = 0; 
 #else
         headerPtr->nFlags |= (contextPtr->processedFrameCount == (EB_U64)config->framesToBeEncoded) || config->stopEncoder ? EB_BUFFERFLAG_EOS : 0;
@@ -1326,7 +1328,7 @@ APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
         // Update Output Port Activity State
         *portState = (headerPtr->nFlags & EB_BUFFERFLAG_EOS) ? APP_PortInactive : *portState;
         return_value = (headerPtr->nFlags & EB_BUFFERFLAG_EOS) ? APP_ExitConditionFinished : APP_ExitConditionNone;
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         ++frameCount;
 #else
         //++frameCount;
@@ -1338,7 +1340,7 @@ APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
 
         // Queue the buffer again if the port is still active
         if (*portState == APP_PortActive) {
-#if ! CHKN_OMX
+#if !EB_BUILD_CONFIG_CHKN_OMX
             EbH265EncFillPacket((EB_HANDLETYPE)componentHandle, headerPtr);
 #endif 
         }

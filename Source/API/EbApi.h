@@ -13,11 +13,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
-    
-#define CHKN_OMX        1
-#define DEADLOCK_DEBUG  0
-#define CHKN_EOS        1
-#define ONE_MEMCPY      1
 
 #define EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT     2
 #define EB_HME_SEARCH_AREA_ROW_MAX_COUNT        2
@@ -116,9 +111,6 @@ typedef enum EB_ERRORTYPE
 } EB_ERRORTYPE;
 
 #define EB_BUFFERFLAG_EOS 0x00000001 
-
-// Display Total Memory at the end of the memory allocations
-#define DISPLAY_MEMORY                                  0
 
 // For 8-bit and 10-bit packed inputs, the luma, cb, and cr fields should be used
 //   for the three input picture planes.  However, for 10-bit unpacked planes the

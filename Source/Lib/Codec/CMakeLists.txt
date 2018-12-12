@@ -5,6 +5,7 @@
 
 # Include Encoder Subdirectories
 include_directories (${PROJECT_SOURCE_DIR}/Source/API/)
+include_directories (${PROJECT_SOURCE_DIR}/Source/Config/)
 include_directories (${PROJECT_SOURCE_DIR}/Source/Lib/Codec/)
 
 include_directories (${PROJECT_SOURCE_DIR}/Source/Lib/C_DEFAULT/)

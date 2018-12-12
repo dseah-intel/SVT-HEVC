@@ -14,6 +14,7 @@
 #include "EbSampleAdaptiveOffset.h"
 #include "EbErrorCodes.h"
 #include "EbErrorHandling.h"
+#include "EbBuildConfig.h"
 
 
 void PrecomputeCabacCost(CabacCost_t            *CabacCostPtr,
@@ -3539,7 +3540,7 @@ void* EncDecKernel(void *inputPtr)
         segmentsPtr = pictureControlSetPtr->encDecSegmentCtrl;
         lastLcuFlag = EB_FALSE;
         is16bit = (EB_BOOL)(sequenceControlSetPtr->staticConfig.encoderBitDepth > EB_8BIT);
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld ENCDEC IN \n", pictureControlSetPtr->pictureNumber);
 #endif
         // LCU Constants
@@ -3914,7 +3915,7 @@ void* EncDecKernel(void *inputPtr)
 
         }
 
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld ENCDEC OUT \n", pictureControlSetPtr->pictureNumber);
 #endif
 

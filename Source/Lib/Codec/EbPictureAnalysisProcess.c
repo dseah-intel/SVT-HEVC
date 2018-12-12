@@ -27,6 +27,8 @@
 
 #include "EbTime.h"
 
+#include "EbBuildConfig.h"
+
 
 #define VARIANCE_PRECISION		16
 #define  LCU_LOW_VAR_TH                5
@@ -4297,7 +4299,7 @@ void DecimateInputPicture(
 		sixteenthDecimatedPicturePtr->originX,
 		sixteenthDecimatedPicturePtr->originY);
 }
-#if !ONE_MEMCPY
+#if !EB_BUILD_CONFIG_ONE_MEMCPY
 void CopyInputPicture(
     SequenceControlSet_t            *sequenceControlSetPtr,
     PictureParentControlSet_t       *pictureControlSetPtr
@@ -4507,7 +4509,7 @@ void* PictureAnalysisKernel(void *inputPtr)
 		pictureControlSetPtr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->objectPtr;
 		sequenceControlSetPtr = (SequenceControlSet_t*)pictureControlSetPtr->sequenceControlSetWrapperPtr->objectPtr;
 		inputPicturePtr = pictureControlSetPtr->enhancedPicturePtr;
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld PA IN \n", pictureControlSetPtr->pictureNumber);
 #endif
 		paReferenceObject = (EbPaReferenceObject_t*)pictureControlSetPtr->paReferencePictureWrapperPtr->objectPtr;
@@ -4519,7 +4521,7 @@ void* PictureAnalysisKernel(void *inputPtr)
 		pictureWidthInLcu = (sequenceControlSetPtr->lumaWidth + sequenceControlSetPtr->lcuSize - 1) / sequenceControlSetPtr->lcuSize;
 		pictureHeighInLcu = (sequenceControlSetPtr->lumaHeight + sequenceControlSetPtr->lcuSize - 1) / sequenceControlSetPtr->lcuSize;
 		lcuTotalCount = pictureWidthInLcu * pictureHeighInLcu;
-#if !ONE_MEMCPY        
+#if !EB_BUILD_CONFIG_ONE_MEMCPY
         CopyInputPicture(
             sequenceControlSetPtr,
             pictureControlSetPtr);
@@ -4586,7 +4588,7 @@ void* PictureAnalysisKernel(void *inputPtr)
 		outputResultsPtr = (PictureAnalysisResults_t*)outputResultsWrapperPtr->objectPtr;
 		outputResultsPtr->pictureControlSetWrapperPtr = inputResultsPtr->pictureControlSetWrapperPtr;
 
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld PA OUT \n", pictureControlSetPtr->pictureNumber);
 #endif
 

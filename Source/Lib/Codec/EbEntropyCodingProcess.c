@@ -10,6 +10,7 @@
 #include "EbEncDecResults.h"
 #include "EbEntropyCodingResults.h"
 #include "EbRateControlTasks.h"
+#include "EbBuildConfig.h"
 
 /******************************************************
  * Enc Dec Context Constructor
@@ -337,7 +338,7 @@ void* EntropyCodingKernel(void *inputPtr)
         pictureControlSetPtr   = (PictureControlSet_t*) encDecResultsPtr->pictureControlSetWrapperPtr->objectPtr;
         sequenceControlSetPtr  = (SequenceControlSet_t*) pictureControlSetPtr->sequenceControlSetWrapperPtr->objectPtr;
         lastLcuFlag            = EB_FALSE;
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld EC IN \n", pictureControlSetPtr->pictureNumber);
 #endif
         // LCU Constants
@@ -460,7 +461,7 @@ void* EntropyCodingKernel(void *inputPtr)
 
 			}
         }
-#if DEADLOCK_DEBUG
+#if EB_BUILD_CONFIG_DEADLOCK_DEBUG
         printf("POC %lld EC OUT \n", pictureControlSetPtr->pictureNumber);
 #endif
         // Release Mode Decision Results
