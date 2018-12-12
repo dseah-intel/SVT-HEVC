@@ -462,7 +462,7 @@ EB_ERRORTYPE SignalDerivationMultiProcessesSq(
 
     // Set MD Partitioning Method
     if (pictureControlSetPtr->encMode <= ENC_MODE_3) {
-        if (pictureControlSetPtr->sliceType == I_SLICE) {
+        if (pictureControlSetPtr->sliceType == EB_I_SLICE) {
             pictureControlSetPtr->depthMode = PICT_FULL84_DEPTH_MODE;
         }
         else {
@@ -471,7 +471,7 @@ EB_ERRORTYPE SignalDerivationMultiProcessesSq(
     }
     else if (pictureControlSetPtr->encMode <= ENC_MODE_4) {
         if (sequenceControlSetPtr->inputResolution == INPUT_SIZE_4K_RANGE) {
-            if (pictureControlSetPtr->sliceType == I_SLICE) {
+            if (pictureControlSetPtr->sliceType == EB_I_SLICE) {
                 pictureControlSetPtr->depthMode = PICT_FULL84_DEPTH_MODE;
             }
             else {
@@ -479,7 +479,7 @@ EB_ERRORTYPE SignalDerivationMultiProcessesSq(
             }
         }
         else {
-            if (pictureControlSetPtr->sliceType == I_SLICE) {
+            if (pictureControlSetPtr->sliceType == EB_I_SLICE) {
                 pictureControlSetPtr->depthMode = PICT_FULL84_DEPTH_MODE;
             }
             else {
@@ -488,7 +488,7 @@ EB_ERRORTYPE SignalDerivationMultiProcessesSq(
         }
     }
     else if (pictureControlSetPtr->encMode <= ENC_MODE_9) {
-        if (pictureControlSetPtr->sliceType == I_SLICE) {
+        if (pictureControlSetPtr->sliceType == EB_I_SLICE) {
             pictureControlSetPtr->depthMode = PICT_FULL84_DEPTH_MODE;
         }
         else {
@@ -496,7 +496,7 @@ EB_ERRORTYPE SignalDerivationMultiProcessesSq(
         }
     }
     else {
-        if (pictureControlSetPtr->sliceType == I_SLICE) {
+        if (pictureControlSetPtr->sliceType == EB_I_SLICE) {
             if (sequenceControlSetPtr->inputResolution <= INPUT_SIZE_1080p_RANGE) {
                 pictureControlSetPtr->depthMode = PICT_FULL84_DEPTH_MODE;
             }
@@ -524,11 +524,11 @@ EB_ERRORTYPE SignalDerivationMultiProcessesSq(
             pictureControlSetPtr->limitOisToDcModeFlag = EB_FALSE;
         }
         else {
-            pictureControlSetPtr->limitOisToDcModeFlag = (pictureControlSetPtr->sliceType != I_SLICE) ? EB_TRUE : EB_FALSE;
+            pictureControlSetPtr->limitOisToDcModeFlag = (pictureControlSetPtr->sliceType != EB_I_SLICE) ? EB_TRUE : EB_FALSE;
         }
     }
     else {
-        pictureControlSetPtr->limitOisToDcModeFlag = (pictureControlSetPtr->sliceType != I_SLICE) ? EB_TRUE : EB_FALSE;
+        pictureControlSetPtr->limitOisToDcModeFlag = (pictureControlSetPtr->sliceType != EB_I_SLICE) ? EB_TRUE : EB_FALSE;
     }
 
     // CU_8x8 Search Mode
@@ -571,7 +571,7 @@ EB_ERRORTYPE SignalDerivationMultiProcessesSq(
     }
     else {
         if (sequenceControlSetPtr->inputResolution == INPUT_SIZE_4K_RANGE) {
-            pictureControlSetPtr->skipOis8x8 = (pictureControlSetPtr->sliceType != I_SLICE) ? EB_TRUE : EB_FALSE;
+            pictureControlSetPtr->skipOis8x8 = (pictureControlSetPtr->sliceType != EB_I_SLICE) ? EB_TRUE : EB_FALSE;
         } else {
             pictureControlSetPtr->skipOis8x8 = EB_FALSE;
         }
@@ -593,7 +593,7 @@ EB_ERRORTYPE SignalDerivationMultiProcessesOq(
 
     // Set MD Partitioning Method
     if (pictureControlSetPtr->encMode <= ENC_MODE_4) {
-        if (pictureControlSetPtr->sliceType == I_SLICE) {
+        if (pictureControlSetPtr->sliceType == EB_I_SLICE) {
             pictureControlSetPtr->depthMode = PICT_FULL84_DEPTH_MODE;
         }
         else {
@@ -601,7 +601,7 @@ EB_ERRORTYPE SignalDerivationMultiProcessesOq(
         }
     }
     else if (pictureControlSetPtr->encMode <= ENC_MODE_6) {
-        if (pictureControlSetPtr->sliceType == I_SLICE) {
+        if (pictureControlSetPtr->sliceType == EB_I_SLICE) {
             pictureControlSetPtr->depthMode = PICT_FULL84_DEPTH_MODE;
         }
         else {
@@ -609,7 +609,7 @@ EB_ERRORTYPE SignalDerivationMultiProcessesOq(
         }
     }
     else {
-        if (pictureControlSetPtr->sliceType == I_SLICE) {
+        if (pictureControlSetPtr->sliceType == EB_I_SLICE) {
             if (sequenceControlSetPtr->inputResolution <= INPUT_SIZE_1080p_RANGE) {
                 pictureControlSetPtr->depthMode = PICT_FULL84_DEPTH_MODE;
             }
@@ -634,7 +634,7 @@ EB_ERRORTYPE SignalDerivationMultiProcessesOq(
         pictureControlSetPtr->limitOisToDcModeFlag = EB_FALSE;
     }
     else {
-        pictureControlSetPtr->limitOisToDcModeFlag = (pictureControlSetPtr->sliceType != I_SLICE) ? EB_TRUE : EB_FALSE;
+        pictureControlSetPtr->limitOisToDcModeFlag = (pictureControlSetPtr->sliceType != EB_I_SLICE) ? EB_TRUE : EB_FALSE;
     }
 
     // CU_8x8 Search Mode
@@ -682,7 +682,7 @@ EB_ERRORTYPE SignalDerivationMultiProcessesOq(
     }
     else {
         if (sequenceControlSetPtr->inputResolution == INPUT_SIZE_4K_RANGE) {
-            pictureControlSetPtr->skipOis8x8 = (pictureControlSetPtr->sliceType != I_SLICE) ? EB_TRUE : EB_FALSE;
+            pictureControlSetPtr->skipOis8x8 = (pictureControlSetPtr->sliceType != EB_I_SLICE) ? EB_TRUE : EB_FALSE;
         }
         else {
             pictureControlSetPtr->skipOis8x8 = EB_FALSE;
@@ -1061,7 +1061,7 @@ void* PictureDecisionKernel(void *inputPtr)
 							pictureControlSetPtr->useRpsInSps = EB_FALSE;
 							pictureControlSetPtr->openGopCraFlag = EB_FALSE;
 
-							pictureType = P_SLICE;
+							pictureType = EB_P_SLICE;
 
 						}
 						// Open GOP CRA - adjust the RPS
@@ -1074,7 +1074,7 @@ void* PictureDecisionKernel(void *inputPtr)
 							pictureControlSetPtr->useRpsInSps = EB_FALSE;
 							pictureControlSetPtr->openGopCraFlag = EB_TRUE;
 
-							pictureType = I_SLICE;
+							pictureType = EB_I_SLICE;
 						}
 						else {
 
@@ -1083,14 +1083,14 @@ void* PictureDecisionKernel(void *inputPtr)
 
 							// Set the Picture Type
 							pictureType =
-								(pictureControlSetPtr->idrFlag) ? I_SLICE :
-								(pictureControlSetPtr->craFlag) ? I_SLICE :
-								(pictureControlSetPtr->predStructure == EB_PRED_LOW_DELAY_P) ? P_SLICE :
-								(pictureControlSetPtr->predStructure == EB_PRED_LOW_DELAY_B) ? B_SLICE :
-								(pictureControlSetPtr->preAssignmentBufferCount == pictureControlSetPtr->predStructPtr->predStructPeriod) ? ((pictureIndex == contextPtr->miniGopEndIndex[miniGopIndex] && sequenceControlSetPtr->staticConfig.baseLayerSwitchMode) ? P_SLICE : B_SLICE) :
+								(pictureControlSetPtr->idrFlag) ? EB_I_SLICE :
+								(pictureControlSetPtr->craFlag) ? EB_I_SLICE :
+								(pictureControlSetPtr->predStructure == EB_PRED_LOW_DELAY_P) ? EB_P_SLICE :
+								(pictureControlSetPtr->predStructure == EB_PRED_LOW_DELAY_B) ? EB_B_SLICE :
+								(pictureControlSetPtr->preAssignmentBufferCount == pictureControlSetPtr->predStructPtr->predStructPeriod) ? ((pictureIndex == contextPtr->miniGopEndIndex[miniGopIndex] && sequenceControlSetPtr->staticConfig.baseLayerSwitchMode) ? EB_P_SLICE : EB_B_SLICE) :
 
-								(encodeContextPtr->preAssignmentBufferEosFlag) ? P_SLICE :
-								B_SLICE;
+								(encodeContextPtr->preAssignmentBufferEosFlag) ? EB_P_SLICE :
+								EB_B_SLICE;
 						}
 
 						// If Intra, reset position
@@ -1110,7 +1110,7 @@ void* PictureDecisionKernel(void *inputPtr)
 						//else if (encodeContextPtr->preAssignmentBufferSceneChangeCount > 0) {
 						//    if(bufferIndex < encodeContextPtr->preAssignmentBufferSceneChangeIndex) {
 						//        ++encodeContextPtr->predStructPosition;
-						//        pictureType = P_SLICE;
+						//        pictureType = EB_P_SLICE;
 						//    }
 						//    else {
 						//        encodeContextPtr->predStructPosition = pictureControlSetPtr->predStructPtr->initPicIndex + encodeContextPtr->preAssignmentBufferCount - bufferIndex - 1;
@@ -1176,7 +1176,7 @@ void* PictureDecisionKernel(void *inputPtr)
 
 						switch (pictureType) {
 
-						case I_SLICE:
+						case EB_I_SLICE:
 
 							// Reset Prediction Structure Position & Reference Struct Position 
 							if (pictureControlSetPtr->pictureNumber == 0){
@@ -1207,8 +1207,8 @@ void* PictureDecisionKernel(void *inputPtr)
 
 							break;
 
-						case P_SLICE:
-						case B_SLICE:
+						case EB_P_SLICE:
+						case EB_B_SLICE:
 
 							// Reset CRA and IDR Flag
 							pictureControlSetPtr->craFlag = EB_FALSE;
@@ -1284,7 +1284,7 @@ void* PictureDecisionKernel(void *inputPtr)
                         preAssignmentBufferFirstPassFlag = EB_FALSE;
                     
                         // Update the Dependant List Count - If there was an I-frame or Scene Change, then cleanup the Picture Decision PA Reference Queue Dependent Counts
-                        if (pictureControlSetPtr->sliceType == I_SLICE) 
+                        if (pictureControlSetPtr->sliceType == EB_I_SLICE) 
                         {
 
                             inputQueueIndex = encodeContextPtr->pictureDecisionPaReferenceQueueHeadIndex;
@@ -1376,8 +1376,8 @@ void* PictureDecisionKernel(void *inputPtr)
 
                         // Copy the reference lists into the inputEntry and 
                         // set the Reference Counts Based on Temporal Layer and how many frames are active
-                        pictureControlSetPtr->refList0Count = (pictureType == I_SLICE) ? 0 : (EB_U8)predPositionPtr->refList0.referenceListCount;
-                        pictureControlSetPtr->refList1Count = (pictureType == I_SLICE) ? 0 : (EB_U8)predPositionPtr->refList1.referenceListCount;
+                        pictureControlSetPtr->refList0Count = (pictureType == EB_I_SLICE) ? 0 : (EB_U8)predPositionPtr->refList0.referenceListCount;
+                        pictureControlSetPtr->refList1Count = (pictureType == EB_I_SLICE) ? 0 : (EB_U8)predPositionPtr->refList1.referenceListCount;
 
 						inputEntryPtr->list0Ptr             = &predPositionPtr->refList0;
                         inputEntryPtr->list1Ptr             = &predPositionPtr->refList1;
@@ -1407,17 +1407,17 @@ void* PictureDecisionKernel(void *inputPtr)
 						((EbPaReferenceObject_t*)pictureControlSetPtr->paReferencePictureWrapperPtr->objectPtr)->dependentPicturesCount = inputEntryPtr->dependentCount;
 
 						/* EB_U32 depCnt = ((EbPaReferenceObject_t*)pictureControlSetPtr->paReferencePictureWrapperPtr->objectPtr)->dependentPicturesCount;
-						if (pictureControlSetPtr->pictureNumber>0 && pictureControlSetPtr->sliceType==I_SLICE && depCnt!=8 )
+						if (pictureControlSetPtr->pictureNumber>0 && pictureControlSetPtr->sliceType==EB_I_SLICE && depCnt!=8 )
 						printf("depCnt Error1  POC:%i  TL:%i   is needed:%i\n",pictureControlSetPtr->pictureNumber,pictureControlSetPtr->temporalLayerIndex,inputEntryPtr->dependentCount);
-						else if (pictureControlSetPtr->sliceType==B_SLICE && pictureControlSetPtr->temporalLayerIndex == 0 && depCnt!=8)
+						else if (pictureControlSetPtr->sliceType==EB_B_SLICE && pictureControlSetPtr->temporalLayerIndex == 0 && depCnt!=8)
 						printf("depCnt Error2  POC:%i  TL:%i   is needed:%i\n",pictureControlSetPtr->pictureNumber,pictureControlSetPtr->temporalLayerIndex,inputEntryPtr->dependentCount);
-						else if (pictureControlSetPtr->sliceType==B_SLICE && pictureControlSetPtr->temporalLayerIndex == 1 && depCnt!=4)
+						else if (pictureControlSetPtr->sliceType==EB_B_SLICE && pictureControlSetPtr->temporalLayerIndex == 1 && depCnt!=4)
 						printf("depCnt Error3  POC:%i  TL:%i   is needed:%i\n",pictureControlSetPtr->pictureNumber,pictureControlSetPtr->temporalLayerIndex,inputEntryPtr->dependentCount);
-						else if (pictureControlSetPtr->sliceType==B_SLICE && pictureControlSetPtr->temporalLayerIndex == 2 && depCnt!=2)
+						else if (pictureControlSetPtr->sliceType==EB_B_SLICE && pictureControlSetPtr->temporalLayerIndex == 2 && depCnt!=2)
 						printf("depCnt Error4  POC:%i  TL:%i   is needed:%i\n",pictureControlSetPtr->pictureNumber,pictureControlSetPtr->temporalLayerIndex,inputEntryPtr->dependentCount);
-						else if (pictureControlSetPtr->sliceType==B_SLICE && pictureControlSetPtr->temporalLayerIndex == 3 && depCnt!=0)
+						else if (pictureControlSetPtr->sliceType==EB_B_SLICE && pictureControlSetPtr->temporalLayerIndex == 3 && depCnt!=0)
 						printf("depCnt Error5  POC:%i  TL:%i   is needed:%i\n",pictureControlSetPtr->pictureNumber,pictureControlSetPtr->temporalLayerIndex,inputEntryPtr->dependentCount);*/
-						//if (pictureControlSetPtr->sliceType==P_SLICE )
+						//if (pictureControlSetPtr->sliceType==EB_P_SLICE )
 						//     printf("POC:%i  TL:%i   is needed:%i\n",pictureControlSetPtr->pictureNumber,pictureControlSetPtr->temporalLayerIndex,inputEntryPtr->dependentCount);
 
                         CHECK_REPORT_ERROR(
@@ -1462,7 +1462,7 @@ void* PictureDecisionKernel(void *inputPtr)
                     
 
                         // Configure List0
-                        if ((pictureControlSetPtr->sliceType == P_SLICE) || (pictureControlSetPtr->sliceType == B_SLICE)) {
+                        if ((pictureControlSetPtr->sliceType == EB_P_SLICE) || (pictureControlSetPtr->sliceType == EB_B_SLICE)) {
                     
 							if (pictureControlSetPtr->refList0Count){
                                 paReferenceQueueIndex = (EB_U32) CIRCULAR_ADD(
@@ -1498,7 +1498,7 @@ void* PictureDecisionKernel(void *inputPtr)
                         }
                  
                         // Configure List1
-                        if (pictureControlSetPtr->sliceType == B_SLICE) {
+                        if (pictureControlSetPtr->sliceType == EB_B_SLICE) {
                         
 							if (pictureControlSetPtr->refList1Count){
                                 paReferenceQueueIndex = (EB_U32) CIRCULAR_ADD(
