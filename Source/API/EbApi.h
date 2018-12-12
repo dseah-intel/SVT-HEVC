@@ -16,7 +16,7 @@ extern "C" {
 
 #define EB_HME_SEARCH_AREA_COLUMN_MAX_COUNT     2
 #define EB_HME_SEARCH_AREA_ROW_MAX_COUNT        2
-    
+
 #ifdef _WIN32
 #define EB_API __declspec(dllexport)
 #else
@@ -30,7 +30,7 @@ extern "C" {
 /********************************
 * Defines
 ********************************/
-    
+
 /** Assembly Types
 */
 typedef enum EB_ASM {
@@ -40,26 +40,25 @@ typedef enum EB_ASM {
     EB_ASM_AVX512,
     EB_ASM_TYPE_INVALID = ~0
 } EB_ASM;
-    
+
 /***************************************
 * Generic linked list data structure for passing data into/out from the library
 ***************************************/
 typedef int   EB_LINKED_LIST_TYPE;
 typedef struct EbLinkedListNode
 {
-	void*                     app;                       // points to an application object this node is associated
-	// with. this is an opaque pointer to the encoder lib, but
-	// releaseCbFncPtr may need to access it.
-	EB_LINKED_LIST_TYPE       type;                      // type of data pointed by "data" member variable
-	unsigned int                    size;                      // size of (data)
-	unsigned char                   passthrough;               // whether this is passthrough data from application
-	void(*releaseCbFncPtr)(struct EbLinkedListNode*); // callback to be executed by encoder when picture reaches end of pipeline, or
-	// when aborting. However, at end of pipeline encoder shall
-	// NOT invoke this callback if passthrough is TRUE (but
-	// still needs to do so when aborting)
-	void                     *data;                      // pointer to application's data
-	struct EbLinkedListNode  *next;                      // pointer to next node (null when last)
-
+    void                     *app;                       // points to an application object this node is associated
+    // with. this is an opaque pointer to the encoder lib, but
+    // releaseCbFncPtr may need to access it.
+    EB_LINKED_LIST_TYPE       type;                      // type of data pointed by "data" member variable
+    unsigned int              size;                      // size of (data)
+    unsigned char             passthrough;               // whether this is passthrough data from application
+    void(*releaseCbFncPtr)(struct EbLinkedListNode*); // callback to be executed by encoder when picture reaches end of pipeline, or
+    // when aborting. However, at end of pipeline encoder shall
+    // NOT invoke this callback if passthrough is TRUE (but
+    // still needs to do so when aborting)
+    void                     *data;                      // pointer to application's data
+    struct EbLinkedListNode  *next;                      // pointer to next node (null when last)
 } EbLinkedListNode;
 
 #define EB_SLICE           unsigned int
@@ -92,7 +91,7 @@ typedef struct EB_COMPONENTTYPE
     void* pComponentPrivate;
     void* pApplicationPrivate;
 } EB_COMPONENTTYPE;
-    
+
 typedef enum EB_ERRORTYPE
 {
     EB_ErrorNone = 0,
@@ -110,13 +109,13 @@ typedef enum EB_ERRORTYPE
     EB_ErrorMax                                 = 0x7FFFFFFF
 } EB_ERRORTYPE;
 
-#define EB_BUFFERFLAG_EOS 0x00000001 
+#define EB_BUFFERFLAG_EOS 0x00000001
 
 // For 8-bit and 10-bit packed inputs, the luma, cb, and cr fields should be used
 //   for the three input picture planes.  However, for 10-bit unpacked planes the
-//   lumaExt, cbExt, and crExt fields should be used hold the extra 2-bits of 
+//   lumaExt, cbExt, and crExt fields should be used hold the extra 2-bits of
 //   precision while the luma, cb, and cr fields hold the 8-bit data.
-typedef struct EB_H265_ENC_INPUT 
+typedef struct EB_H265_ENC_INPUT
 {
     unsigned char *luma;
     unsigned char *cb;
@@ -141,39 +140,39 @@ typedef struct EB_H265_ENC_CONFIGURATION
     unsigned int              channelId;
     unsigned int              activeChannelCount;
     unsigned char             useRoundRobinThreadAssignment;
-    
+
     // GOP Structure
-    signed int              intraPeriodLength;
+    signed int                intraPeriodLength;
     unsigned int              intraRefreshType;
 
-    unsigned char               predStructure;
+    unsigned char             predStructure;
     unsigned int              baseLayerSwitchMode;
-    unsigned char               encMode;
+    unsigned char             encMode;
 
     unsigned int              hierarchicalLevels;
 
 
-    unsigned int             sourceWidth;
-    unsigned int             sourceHeight;
+    unsigned int              sourceWidth;
+    unsigned int              sourceHeight;
 
-    unsigned char              latencyMode;
+    unsigned char             latencyMode;
 
 
-    // Interlaced Video 
+    // Interlaced Video
     unsigned char             interlacedVideo;
-        
+
     // Quantization
     unsigned int              qp;
     unsigned char             useQpFile;
 
     // Deblock Filter
     unsigned char             disableDlfFlag;
-    
+
     // SAO
     unsigned char             enableSaoFlag;
 
     // ME Tools
-    unsigned char             useDefaultMeHme; 
+    unsigned char             useDefaultMeHme;
     unsigned char             enableHmeFlag;
     unsigned char             enableHmeLevel0Flag;
     unsigned char             enableHmeLevel1Flag;
@@ -200,8 +199,8 @@ typedef struct EB_H265_ENC_CONFIGURATION
 
     // Rate Control
     unsigned int              frameRate;
-    signed int              frameRateNumerator;
-    signed int              frameRateDenominator;
+    signed int                frameRateNumerator;
+    signed int                frameRateDenominator;
     unsigned int              encoderBitDepth;
     unsigned int              compressedTenBitFormat;
     unsigned int              rateControlMode;
@@ -212,9 +211,9 @@ typedef struct EB_H265_ENC_CONFIGURATION
     unsigned int              maxQpAllowed;
     unsigned int              minQpAllowed;
 
-    unsigned char               tune;
+    unsigned char             tune;
 
-	unsigned char				bitRateReduction;
+    unsigned char             bitRateReduction;
     // Tresholds
     unsigned char             improveSharpness;
     unsigned int              videoUsabilityInfo;
@@ -235,9 +234,9 @@ typedef struct EB_H265_ENC_CONFIGURATION
 
     signed int                injectorFrameRate;
     unsigned int              speedControlFlag;
-    
+
     // ASM Type
-    EB_ASM			          asmType;
+    EB_ASM                    asmType;
 
     unsigned char             codeVpsSpsPps;
 
