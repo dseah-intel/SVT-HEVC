@@ -49,8 +49,6 @@ typedef enum EB_ASM {
 /***************************************
 * Generic linked list data structure for passing data into/out from the library
 ***************************************/
-#define       EB_CONFIG_ON_FLY_PIC_QP        219
-
 typedef int   EB_LINKED_LIST_TYPE;
 typedef struct EbLinkedListNode
 {
