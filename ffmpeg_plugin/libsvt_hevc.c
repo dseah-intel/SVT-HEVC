@@ -315,7 +315,7 @@ static int eb_send_frame(AVCodecContext *avctx, const AVFrame *frame)
     headerPtr->nFlags       = 0;
     headerPtr->pAppPrivate  = NULL;
     headerPtr->pts          = frame->pts;
-    headerPtr->sliceType    = INVALID_SLICE;
+    headerPtr->sliceType    = EB_INVALID_SLICE;
     EbH265EncSendPicture(svt_enc->svt_handle, headerPtr);
 
     return ret;
@@ -341,9 +341,9 @@ static int eb_receive_packet(AVCodecContext *avctx, AVPacket *pkt)
     pkt->size = headerPtr->nFilledLen;
     pkt->pts  = headerPtr->pts;
     pkt->dts  = headerPtr->dts;
-    if (headerPtr->sliceType == IDR_SLICE)
+    if (headerPtr->sliceType == EB_IDR_SLICE)
         pkt->flags |= AV_PKT_FLAG_KEY;
-    if (headerPtr->sliceType == NON_REF_SLICE)
+    if (headerPtr->sliceType == EB_NON_REF_SLICE)
         pkt->flags |= AV_PKT_FLAG_DISPOSABLE;
 
     ret = (headerPtr->nFlags & EB_BUFFERFLAG_EOS) ? AVERROR_EOF : 0;
