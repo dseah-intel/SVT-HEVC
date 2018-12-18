@@ -222,6 +222,7 @@ EB_ERRORTYPE CopyConfigurationParameters(
     callbackData->ebEncParameters.speedControlFlag = config->speedControlFlag;
     callbackData->ebEncParameters.asmType = config->asmType;
     callbackData->ebEncParameters.reconEnabled = config->reconFile ? EB_TRUE : EB_FALSE;
+    callbackData->ebEncParameters.codeVpsSpsPps = 1;
 
     for (hmeRegionIndex = 0; hmeRegionIndex < callbackData->ebEncParameters.numberHmeSearchRegionInWidth; ++hmeRegionIndex) {
         callbackData->ebEncParameters.hmeLevel0SearchAreaInWidthArray[hmeRegionIndex] = config->hmeLevel0SearchAreaInWidthArray[hmeRegionIndex];

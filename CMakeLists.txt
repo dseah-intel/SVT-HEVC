@@ -75,17 +75,3 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 add_subdirectory (Source/Lib)
 add_subdirectory (Source/App)
 add_subdirectory (Source/SimpleApp)
-
-# install libsvt.pc
-if(UNIX)
-    include(FindPkgConfig QUIET)
-    if(PKG_CONFIG_FOUND)
-        configure_file("libsvt.pc.in" "libsvt.pc" @ONLY)
-        install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libsvt.pc" DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig")
-    endif()
-endif()
-
-# install headers
-install(FILES ${CMAKE_SOURCE_DIR}/Source/API/EbApi.h DESTINATION include)
-install(FILES ${CMAKE_SOURCE_DIR}/Source/API/EbErrorCodes.h DESTINATION include)
-install(FILES ${CMAKE_SOURCE_DIR}/Source/API/EbTime.h DESTINATION include)

@@ -516,9 +516,14 @@ void* ResourceCoordinationKernel(void *inputPtr)
                 }
 
                 vuiPtr->vuiTimingInfoPresentFlag        = EB_TRUE;
-                
-                vuiPtr->vuiTimeScale = (sequenceControlSetPtr->staticConfig.frameRate) ;
-                vuiPtr->vuiNumUnitsInTick = 1<<16;
+                if (sequenceControlSetPtr->staticConfig.frameRateDenominator != 0 && sequenceControlSetPtr->staticConfig.frameRateNumerator != 0) {
+                    vuiPtr->vuiTimeScale = (sequenceControlSetPtr->staticConfig.frameRateNumerator);
+                    vuiPtr->vuiNumUnitsInTick = sequenceControlSetPtr->staticConfig.frameRateDenominator;
+                }
+                else {
+                    vuiPtr->vuiTimeScale = (sequenceControlSetPtr->staticConfig.frameRate) > 1000 ? (sequenceControlSetPtr->staticConfig.frameRate) : (sequenceControlSetPtr->staticConfig.frameRate)<<16;
+                    vuiPtr->vuiNumUnitsInTick = 1 << 16;                
+                }
                     
             }
             // Get empty SequenceControlSet [BLOCKING]
@@ -581,7 +586,6 @@ void* ResourceCoordinationKernel(void *inputPtr)
         inputPictureWrapperPtr  = 0;
         inputPicturePtr         = 0;
 
-#if EB_BUILD_CONFIG_ONE_MEMCPY
         // assign the input picture
         pictureControlSetPtr->enhancedPicturePtr = (EbPictureBufferDesc_t*)ebInputPtr->pBuffer;
         // start latency measure as soon as we copy input picture from buffer
@@ -589,7 +593,6 @@ void* ResourceCoordinationKernel(void *inputPtr)
         pictureControlSetPtr->startTimeuSeconds = 0;
 
         EbStartTime((unsigned long long*)&pictureControlSetPtr->startTimeSeconds, (unsigned long long*)&pictureControlSetPtr->startTimeuSeconds);
-#endif
 
         inputPicturePtr = pictureControlSetPtr->enhancedPicturePtr;
 
@@ -623,10 +626,6 @@ void* ResourceCoordinationKernel(void *inputPtr)
         pictureControlSetPtr->sequenceControlSetWrapperPtr    = contextPtr->sequenceControlSetActiveArray[instanceIndex];
         pictureControlSetPtr->inputPictureWrapperPtr          = inputPictureWrapperPtr;
 
-#if !EB_BUILD_CONFIG_CHKN_EOS
-        pictureControlSetPtr->endOfSequenceFlag               = endOfSequenceFlag;
-#endif
-            
         // Set Picture Control Flags
         pictureControlSetPtr->idrFlag                         = sequenceControlSetPtr->encodeContextPtr->initialPicture || (ebInputPtr->sliceType == EB_IDR_SLICE);
         pictureControlSetPtr->craFlag                         = (ebInputPtr->sliceType == EB_I_SLICE) ? EB_TRUE : EB_FALSE;
@@ -687,7 +686,7 @@ void* ResourceCoordinationKernel(void *inputPtr)
         pictureControlSetPtr->pictureNumber                   = contextPtr->pictureNumberArray[instanceIndex]++;
 
 #if EB_BUILD_CONFIG_DEADLOCK_DEBUG
-        printf("POC %lld RESCOOR IN \n", pictureControlSetPtr->pictureNumber);
+        SVT_LOG("POC %lld RESCOOR IN \n", pictureControlSetPtr->pictureNumber);
 #endif    
         // Set the picture structure: 0: progressive, 1: top, 2: bottom
         pictureControlSetPtr->pictStruct = sequenceControlSetPtr->interlacedVideo == EB_FALSE ? 
@@ -718,7 +717,6 @@ void* ResourceCoordinationKernel(void *inputPtr)
         ((EbPaReferenceObject_t*)pictureControlSetPtr->paReferencePictureWrapperPtr->objectPtr)->inputPaddedPicturePtr->bufferY = inputPicturePtr->bufferY;
 
         // Get Empty Output Results Object
-#if EB_BUILD_CONFIG_CHKN_EOS
 		if (pictureControlSetPtr->pictureNumber > 0)
 		{
 			((PictureParentControlSet_t       *)prevPictureControlSetWrapperPtr->objectPtr)->endOfSequenceFlag = endOfSequenceFlag;
@@ -735,23 +733,12 @@ void* ResourceCoordinationKernel(void *inputPtr)
 		}
 
 		prevPictureControlSetWrapperPtr = pictureControlSetWrapperPtr;
-#else
-			EbGetEmptyObject(
-				contextPtr->resourceCoordinationResultsOutputFifoPtr,
-				&outputWrapperPtr);
-			outputResultsPtr = (ResourceCoordinationResults_t*)outputWrapperPtr->objectPtr;
-			outputResultsPtr->pictureControlSetWrapperPtr = pictureControlSetWrapperPtr;
 
-			// Post the finished Results Object
-			EbPostFullObject(outputWrapperPtr);
-#endif
 
 
 #if EB_BUILD_CONFIG_DEADLOCK_DEBUG
-        printf("POC %lld RESCOOR OUT \n", pictureControlSetPtr->pictureNumber);
+        SVT_LOG("POC %lld RESCOOR OUT \n", pictureControlSetPtr->pictureNumber);
 #endif
-        // Release the Input Buffer
-        //EbReleaseObject(ebInputWrapperPtr); 
 
     }
 

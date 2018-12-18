@@ -223,14 +223,14 @@ EB_BOOL SceneTransitionDetector(
 
                 if (aidFuturePast < FLASH_TH && aidFuturePresent >= FLASH_TH && aidPresentPast >= FLASH_TH){
 					isFlash = EB_TRUE;
-					//printf ("\nFlash in frame# %i , %i\n", currentPictureControlSetPtr->pictureNumber,aidFuturePast);
+					//SVT_LOG ("\nFlash in frame# %i , %i\n", currentPictureControlSetPtr->pictureNumber,aidFuturePast);
 				}
 				else if (aidFuturePresent < FADE_TH && aidPresentPast < FADE_TH){
 					isFade = EB_TRUE;
-					//printf ("\nFlash in frame# %i , %i\n", currentPictureControlSetPtr->pictureNumber,aidFuturePast);
+					//SVT_LOG ("\nFlash in frame# %i , %i\n", currentPictureControlSetPtr->pictureNumber,aidFuturePast);
 				} else {
 					isSceneChange = EB_TRUE;
-					//printf ("\nScene Change in frame# %i , %i\n", currentPictureControlSetPtr->pictureNumber,aidFuturePast);
+					//SVT_LOG ("\nScene Change in frame# %i , %i\n", currentPictureControlSetPtr->pictureNumber,aidFuturePast);
 				}
 
 			}
@@ -239,12 +239,12 @@ EB_BOOL SceneTransitionDetector(
 				aidFuturePast = (EB_U8) ABS((EB_S16)futurePictureControlSetPtr->averageIntensityPerRegion[regionInPictureWidthIndex][regionInPictureHeightIndex][0] - (EB_S16)previousPictureControlSetPtr->averageIntensityPerRegion[regionInPictureWidthIndex][regionInPictureHeightIndex][0]);
 				if (aidFuturePast < FLASH_TH){
 					// proper action to be signalled
-					//printf ("\nLight Flash in frame# %i , %i\n", currentPictureControlSetPtr->pictureNumber,aidFuturePast);
+					//SVT_LOG ("\nLight Flash in frame# %i , %i\n", currentPictureControlSetPtr->pictureNumber,aidFuturePast);
 					ahdRunningAvg[regionInPictureWidthIndex][regionInPictureHeightIndex] = (3 * ahdRunningAvg[regionInPictureWidthIndex][regionInPictureHeightIndex] + ahd) / 4;
 				}
 				else{
 					// proper action to be signalled
-					//printf ("\nLight Scene Change / fade detected in frame# %i , %i\n", currentPictureControlSetPtr->pictureNumber,aidFuturePast);
+					//SVT_LOG ("\nLight Scene Change / fade detected in frame# %i , %i\n", currentPictureControlSetPtr->pictureNumber,aidFuturePast);
 					ahdRunningAvg[regionInPictureWidthIndex][regionInPictureHeightIndex] = (3 * ahdRunningAvg[regionInPictureWidthIndex][regionInPictureHeightIndex] + ahd) / 4;
 				}
 
@@ -849,7 +849,7 @@ void* PictureDecisionKernel(void *inputPtr)
         encodeContextPtr        = (EncodeContext_t*)            sequenceControlSetPtr->encodeContextPtr;
 
 #if EB_BUILD_CONFIG_DEADLOCK_DEBUG
-        printf("POC %lld PD IN \n", pictureControlSetPtr->pictureNumber);
+        SVT_LOG("POC %lld PD IN \n", pictureControlSetPtr->pictureNumber);
 #endif
 
         loopCount ++;
@@ -1622,9 +1622,9 @@ void* PictureDecisionKernel(void *inputPtr)
         }
             if(windowAvail == EB_FALSE  && framePasseThru == EB_FALSE)
                 break;
-        }        
+        }
 #if EB_BUILD_CONFIG_DEADLOCK_DEBUG
-        printf("POC %lld PD OUT \n", pictureControlSetPtr->pictureNumber);
+        SVT_LOG("POC %lld PD OUT \n", pictureControlSetPtr->pictureNumber);
 #endif        
         // Release the Input Results
         EbReleaseObject(inputResultsWrapperPtr);

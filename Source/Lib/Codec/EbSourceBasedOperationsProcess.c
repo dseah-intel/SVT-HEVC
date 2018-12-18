@@ -1428,7 +1428,7 @@ void* SourceBasedOperationsKernel(void *inputPtr)
 		sequenceControlSetPtr = (SequenceControlSet_t*)pictureControlSetPtr->sequenceControlSetWrapperPtr->objectPtr;
 
 #if EB_BUILD_CONFIG_DEADLOCK_DEBUG
-        printf("POC %lld SRC IN \n", pictureControlSetPtr->pictureNumber);
+        SVT_LOG("POC %lld SRC IN \n", pictureControlSetPtr->pictureNumber);
 #endif
 		pictureControlSetPtr->darkBackGroundlightForeGround = EB_FALSE;
 		contextPtr->pictureNumGrassLcu = 0;
@@ -1677,7 +1677,7 @@ void* SourceBasedOperationsKernel(void *inputPtr)
         }
 
 #if EB_BUILD_CONFIG_DEADLOCK_DEBUG
-        printf("POC %lld SRC OUT \n", pictureControlSetPtr->pictureNumber);
+        SVT_LOG("POC %lld SRC OUT \n", pictureControlSetPtr->pictureNumber);
 #endif
 
         // Get Empty Results Object

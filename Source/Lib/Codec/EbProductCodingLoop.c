@@ -2277,7 +2277,7 @@ void PerformIntraPrediction(
         }
     }
     else{
-        printf("ERR: prediction not ready");
+        SVT_LOG("ERR: prediction not ready");
     }
    
 }
@@ -2346,7 +2346,7 @@ void Intra4x4VsIntra8x8(
     EB_U32                  puIndex;
 
     if(cuPtr->predictionModeFlag!=INTRA_MODE)
-        printf("WARNING: cuPtr->costLuma needs to be filled in inter case"); 
+        SVT_LOG("WARNING: cuPtr->costLuma needs to be filled in inter case");
 
 		if (*intra4x4Cost < contextPtr->mdLocalCuUnit[cuPtr->leafIndex].costLuma) {
 

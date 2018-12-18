@@ -646,7 +646,7 @@ void UpdateMotionFieldUniformityOverTime(
 	EB_U32								inputQueueIndex;
 	EB_U32                              noFramesToCheck;
 	EB_U32								framesToCheckIndex;
-	//printf("To update POC %d\tframesInSw = %d\n", pictureControlSetPtr->pictureNumber, pictureControlSetPtr->framesInSw);
+	//SVT_LOG("To update POC %d\tframesInSw = %d\n", pictureControlSetPtr->pictureNumber, pictureControlSetPtr->framesInSw);
 
 	// Determine number of frames to check N
     noFramesToCheck = MIN(MIN(((pictureControlSetPtr->predStructPtr->predStructPeriod << 1) + 1), pictureControlSetPtr->framesInSw), sequenceControlSetPtr->staticConfig.lookAheadDistance);
@@ -838,7 +838,7 @@ void GetHistogramQueueData(
         sizeof(EB_U16) * NUMBER_OF_INTRA_SAD_INTERVALS);
 
 	EbReleaseMutex(sequenceControlSetPtr->encodeContextPtr->hlRateControlHistorgramQueueMutex);
-	//printf("Test1 POC: %d\t POC: %d\t LifeCount: %d\n", histogramQueueEntryPtr->pictureNumber, pictureControlSetPtr->pictureNumber,  histogramQueueEntryPtr->lifeCount);
+	//SVT_LOG("Test1 POC: %d\t POC: %d\t LifeCount: %d\n", histogramQueueEntryPtr->pictureNumber, pictureControlSetPtr->pictureNumber,  histogramQueueEntryPtr->lifeCount);
 
 
 	return;
@@ -927,7 +927,7 @@ void* InitialRateControlKernel(void *inputPtr)
 		inputResultsPtr = (MotionEstimationResults_t*)inputResultsWrapperPtr->objectPtr;
 		pictureControlSetPtr = (PictureParentControlSet_t*)inputResultsPtr->pictureControlSetWrapperPtr->objectPtr;
 #if EB_BUILD_CONFIG_DEADLOCK_DEBUG
-        printf("POC %lld IRC IN \n", pictureControlSetPtr->pictureNumber);
+        SVT_LOG("POC %lld IRC IN \n", pictureControlSetPtr->pictureNumber);
 #endif
         pictureControlSetPtr->meSegmentsCompletionMask++;
         if (pictureControlSetPtr->meSegmentsCompletionMask == pictureControlSetPtr->meSegmentsTotalCount) {
@@ -1120,15 +1120,13 @@ void* InitialRateControlKernel(void *inputPtr)
 						1);
 					//OPTION 1:  get the buffer in resource coordination
 
-#if EB_BUILD_CONFIG_CHKN_OMX
 					EbGetEmptyObject(
 						sequenceControlSetPtr->encodeContextPtr->streamOutputFifoPtr,
 						&outputStreamWrapperPtr);
 
 					pictureControlSetPtr->outputStreamWrapperPtr = outputStreamWrapperPtr;					
 
-#endif
-					// Get Empty Results Object
+                    // Get Empty Results Object
 					EbGetEmptyObject(
 						contextPtr->initialrateControlResultsOutputFifoPtr,
 						&outputResultsWrapperPtr);
@@ -1152,7 +1150,7 @@ void* InitialRateControlKernel(void *inputPtr)
 			}
 		}
 #if EB_BUILD_CONFIG_DEADLOCK_DEBUG
-        printf("POC %lld IRC OUT \n", pictureControlSetPtr->pictureNumber);
+        SVT_LOG("POC %lld IRC OUT \n", pictureControlSetPtr->pictureNumber);
 #endif
 		// Release the Input Results
 		EbReleaseObject(inputResultsWrapperPtr);

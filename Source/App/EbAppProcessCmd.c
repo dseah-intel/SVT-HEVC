@@ -1214,15 +1214,9 @@ APPEXITCONDITIONTYPE ProcessInputBuffer(
         }
 
         // Fill in Buffers Header control data
-        headerPtr->nOffset      = 0;
         headerPtr->pts          = config->processedFrameCount-1;
         headerPtr->sliceType    = EB_INVALID_SLICE;
-
-#if EB_BUILD_CONFIG_CHKN_EOS
         headerPtr->nFlags = 0; 
-#else
-        headerPtr->nFlags |= (contextPtr->processedFrameCount == (EB_U64)config->framesToBeEncoded) || config->stopEncoder ? EB_BUFFERFLAG_EOS : 0;
-#endif
 
         // Send the picture
         EbH265EncSendPicture(componentHandle, headerPtr);
@@ -1233,7 +1227,6 @@ APPEXITCONDITIONTYPE ProcessInputBuffer(
             headerPtr->nFilledLen   = 0;
             headerPtr->nTickCount   = 0;
             headerPtr->pAppPrivate  = NULL;
-            headerPtr->nOffset      = 0;
             headerPtr->nFlags       = EB_BUFFERFLAG_EOS;
             headerPtr->pBuffer      = NULL;
             headerPtr->sliceType    = EB_INVALID_SLICE;
@@ -1321,10 +1314,25 @@ APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
 
         // Write Stream Data to file
         if (streamFile) {
-            fwrite(headerPtr->pBuffer + headerPtr->nOffset, 1, headerPtr->nFilledLen, streamFile);
+            fwrite(headerPtr->pBuffer, 1, headerPtr->nFilledLen, streamFile);
         }
         config->performanceContext.byteCount += headerPtr->nFilledLen;
 
+        if ((headerPtr->nFlags & EB_BUFFERFLAG_EOS) && appCallBack->ebEncParameters.codeEosNal == 0) {
+            headerPtr->nFilledLen = 0;
+            stream_status = EbH265EncEosNal(componentHandle, headerPtr);
+            if (stream_status == EB_ErrorMax) {
+                printf("\n");
+                LogErrorOutput(
+                    config->errorLogFile,
+                    headerPtr->nFlags);
+                return APP_ExitConditionError;
+            }
+            else if (stream_status != EB_NoErrorEmptyQueue && streamFile) {
+                fwrite(headerPtr->pBuffer, 1, headerPtr->nFilledLen, streamFile);
+            }
+            config->performanceContext.byteCount += headerPtr->nFilledLen;
+        }
         // Update Output Port Activity State
         *portState = (headerPtr->nFlags & EB_BUFFERFLAG_EOS) ? APP_PortInactive : *portState;
         return_value = (headerPtr->nFlags & EB_BUFFERFLAG_EOS) ? APP_ExitConditionFinished : APP_ExitConditionNone;
@@ -1339,12 +1347,7 @@ APPEXITCONDITIONTYPE ProcessOutputStreamBuffer(
         fflush(stdout);
 
         // Queue the buffer again if the port is still active
-        if (*portState == APP_PortActive) {
-#if !EB_BUILD_CONFIG_CHKN_OMX
-            EbH265EncFillPacket((EB_HANDLETYPE)componentHandle, headerPtr);
-#endif 
-        }
-        else {
+        if (*portState != APP_PortActive) {
             if ((config->framesToBeEncoded < SPEED_MEASUREMENT_INTERVAL) || (config->framesToBeEncoded - startFrame) < SPEED_MEASUREMENT_INTERVAL) {
                 config->performanceContext.averageSpeed = (config->performanceContext.frameCount - startFrame) / duration;
                 config->performanceContext.averageLatency = config->performanceContext.totalLatency / (double)(config->performanceContext.frameCount - startFrame);
@@ -1418,7 +1421,7 @@ APPEXITCONDITIONTYPE ProcessOutputReconBuffer(
             frameNum = frameNum - 1;
         }
 
-        fwrite(headerPtr->pBuffer + headerPtr->nOffset, 1, headerPtr->nFilledLen, config->reconFile);
+        fwrite(headerPtr->pBuffer, 1, headerPtr->nFilledLen, config->reconFile);
         
         // Update Output Port Activity State
         return_value = (headerPtr->nFlags & EB_BUFFERFLAG_EOS) ? APP_ExitConditionFinished : APP_ExitConditionNone;
