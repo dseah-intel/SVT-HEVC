@@ -1,38 +1,39 @@
 
+  
 
 # Scalable Video Technology for HEVC Encoder (SVT-HEVC Encoder) User Guide
 
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [System Requirements](#system-requirements)
-  - 2.1 [CPU requirements](#cpu-requirements)
-  - 2.2 [RAM requirements](#ram-requirements)
-  - 2.3 [Operating systems](#operating-systems)
-    - 2.3.1 Windows\* Operating Systems (64-bit)
-    - 2.3.2 Linux\* Operating Systems (64-bit)
-  - 2.4 [Build the code](#build-the-code)
-    - 2.4.1 Windows\* Operating Systems (64-bit)
-    - 2.4.2 Linux\* Operating Systems (64-bit)
-  - 2.5 [Installation](#installation)
+    - 2.1 [CPU requirements](#cpu-requirements)
+    - 2.2 [RAM requirements](#ram-requirements)
+    - 2.3 [Operating systems](#operating-systems)
+        - 2.3.1 Windows\* Operating Systems (64-bit)
+        - 2.3.2 Linux\* Operating Systems (64-bit)
+    - 2.4 [Build the code](#build-the-code)
+        - 2.4.1 Windows\* Operating Systems (64-bit)
+        - 2.4.2 Linux\* Operating Systems (64-bit)
+    - 2.5 [Installation](#installation)
 3. [ Sample Application Guide](#sample-application-guide)
-  - 3.1 [Input Video Format](#input-video-format)
-  - 3.2 [Compressed 10-bit format](#compressed-10-bit-format)
-    - 3.2.1 [Unpack the 10 bit picture](#unpack-the-10-bit-picture)
-    - 3.2.2 [Compress the 2 bit Plane](#compress-the-2-bit-plane)
-    - 3.2.3 [Unroll the 64x64](#unroll-the-64x64)
-  - 3.3 [Running the encoder](#running-the-encoder)
-    - 3.3.1 [List of all configuration parameters](#list-of-all-configuration-parameters)
-  - 3.4 [Encoding presets table](#encoding-presets-table)
+    - 3.1 [Input Video Format](#input-video-format)
+    - 3.2 [Compressed 10-bit format](#compressed-10-bit-format)
+        - 3.2.1 [Unpack the 10 bit picture](#unpack-the-10-bit-picture)
+        - 3.2.2 [Compress the 2 bit Plane](#compress-the-2-bit-plane)
+        - 3.2.3 [Unroll the 64x64](#unroll-the-64x64)
+    - 3.3 [Running the encoder](#running-the-encoder)
+        - 3.3.1 [List of all configuration parameters](#list-of-all-configuration-parameters)
+    - 3.4 [Encoding presets table](#encoding-presets-table)
 4. [Best Known Configurations (BKC)](#best-known-configurations-bkc)
-  - 4.1 [Hardware BKC](#hardware-bkc)
-  - 4.2 [Software BKC](#software-bkc)
-    - 4.2.1 [10 bit Input YUV](#10-bit-input-yuv)
-    - 4.2.2 Windows\* OS (Tested on Windows\* Server 2016)
-    - 4.2.3 Linux\* OS (Tested on Ubuntu\* Server 18.04 and 16.04)
-    - 4.2.4 [Command line BKC](#command-line-bkc)
+    - 4.1 [Hardware BKC](#hardware-bkc)
+    - 4.2 [Software BKC](#software-bkc)
+        - 4.2.1 [10 bit Input YUV](#10-bit-input-yuv)
+        - 4.2.2 Windows\* OS (Tested on Windows\* Server 2016)
+        - 4.2.3 Linux\* OS (Tested on Ubuntu\* Server 18.04 and 16.04)
+        - 4.2.4 [Command line BKC](#command-line-bkc)
 5. [Appendix A Encoder Parameters](#appendix-a-encoder-parameters)
-  - 5.1 [Hierarchical coding structure parameters](#hierarchical-coding-structure-parameters)
-  - 5.2 [Thread management parameters](#thread-management-parameters)
+    - 5.1 [Hierarchical coding structure parameters](#hierarchical-coding-structure-parameters)
+    - 5.2 [Thread management parameters](#thread-management-parameters)
 6. [Legal Disclaimer](#legal-disclaimer)
 
 
@@ -143,9 +144,11 @@ This section describes how to run the sample encoder application that uses the S
 The SVT-HEVC Encoder supports the following input formats:
 
 - 8-bit yuv420p
+<br>
 ![alt](8bit_yuv420p.png)
 
-- 10-bit yuv420p10le
+10-bit yuv420p10le
+<br>
 ![alt](10bit_yuv420p.png)
  
 
@@ -172,13 +175,8 @@ The unpacking steps separates the 10bits into a group of 8 bits and a group of 2
 
 Now for a faster read of the samples, every 64x64 block of the 2 bit picture should be written into a one dimensional array. Therefore, the top left 64x64 sample block which is now written into a 16 bytes x 64 bytes after the compression of the 2bit samples, will be written into a 1024 bytes x 1 byte array as shown in the picture below.
 
- ![alt](64x64_after_2bit_compression.png)
+ ![alt](64x64_after_unrolling.png)
  
-##### *64x64 block after 2 bit compression.*
-
-  ![alt](64x64_after_unrolling.png)
-##### *64x64 block after unrolling*
-
 
 ### Running the encoder
 
