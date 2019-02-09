@@ -175,7 +175,7 @@ The unpacking steps separates the 10bits into a group of 8 bits and a group of 2
 
 Now for a faster read of the samples, every 64x64 block of the 2 bit picture should be written into a one dimensional array. Therefore, the top left 64x64 sample block which is now written into a 16 bytes x 64 bytes after the compression of the 2bit samples, will be written into a 1024 bytes x 1 byte array as shown in the picture below.
 
- ![alt](64x64_after_unrolling.png)
+ ![alt](64x64_block_after_unrolling.png)
  
 
 ### Running the encoder
