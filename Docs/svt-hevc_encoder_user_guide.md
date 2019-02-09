@@ -5,7 +5,7 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 <br>
-3. [System Requirements](#system-requirements)
+2. [System Requirements](#system-requirements)
     - 2.1 [CPU requirements](#cpu-requirements)
     - 2.2 [RAM requirements](#ram-requirements)
     - 2.3 [Operating systems](#operating-systems)
@@ -16,7 +16,7 @@
       - 2.4.2 [Linux\* Operating Systems (64-bit)](#)
     - 2.5 [Installation](#)
 <br>
-4. [ Installation](#)
+3. [ Installation](#)
   - 3.1 [Input Video Format](#)
   - 3.2 [Compressed 10-bit format](#)
     - 3.2.1 [Unpack the 10 bit picture](#)
@@ -26,7 +26,7 @@
     - 3.3.1 [List of all configuration parameters](#)
   - 3.4 [Encoding presets table](#)
 <br>
-5. [Best Known Configurations (BKC)](#)
+4. [Best Known Configurations (BKC)](#)
   - 4.1 [Hardware BKC](#)
   - 4.2 [Software BKC](#)
     - 4.2.1 [10 bit Input YUV](#)
@@ -34,11 +34,11 @@
     - 4.2.3 [Linux\* OS (Tested on Ubuntu\* Server 18.04 and 16.04)](#)
     - 4.2.4 [Command line BKC](#)
 <br>
-6. [Appendix A.  Encoder Parameters](#)
+5. [Appendix A.  Encoder Parameters](#)
     - 5.1 [A.1 Hierarchical coding structure parameters](#)
     - 5.2 [A.2 Thread management parameters](#)
 <br>
-7. [Legal Disclaimer](#)
+6. [Legal Disclaimer](#)
 
 
 
