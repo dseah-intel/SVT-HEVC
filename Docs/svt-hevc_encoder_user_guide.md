@@ -1,12 +1,11 @@
 
 
-# Scalable Video Technology for HEVC Encoder (SVT-HEVC Encoder)
+# Scalable Video Technology for HEVC Encoder (SVT-HEVC Encoder) User Guide
 
 ## Table of Contents
 1. [Introduction](#introduction)
-<br>
 2. [System Requirements](#system-requirements)
-    - 2.1 [CPU requirements](#cpu-requirements)
+  - 2.1 [CPU requirements](#cpu-requirements)
     - 2.2 [RAM requirements](#ram-requirements)
     - 2.3 [Operating systems](#operating-systems)
       - 2.3.1 [Windows\* Operating Systems (64-bit)](#windows\-operating-systems-64-bit)
@@ -15,8 +14,7 @@
       - 2.4.1 [Windows\* Operating Systems (64-bit)](#)
       - 2.4.2 [Linux\* Operating Systems (64-bit)](#)
     - 2.5 [Installation](#)
-<br>
-3. [ Installation](#)
+4. [ Installation](#)
   - 3.1 [Input Video Format](#)
   - 3.2 [Compressed 10-bit format](#)
     - 3.2.1 [Unpack the 10 bit picture](#)
@@ -25,20 +23,17 @@
   - 3.3 [Running the encoder](#)
     - 3.3.1 [List of all configuration parameters](#)
   - 3.4 [Encoding presets table](#)
-<br>
-4. [Best Known Configurations (BKC)](#)
+5. [Best Known Configurations (BKC)](#)
   - 4.1 [Hardware BKC](#)
   - 4.2 [Software BKC](#)
     - 4.2.1 [10 bit Input YUV](#)
     - 4.2.2 [Windows\* OS (Tested on Windows\* Server 2016)](#)
     - 4.2.3 [Linux\* OS (Tested on Ubuntu\* Server 18.04 and 16.04)](#)
     - 4.2.4 [Command line BKC](#)
-<br>
-5. [Appendix A.  Encoder Parameters](#)
+6. [Appendix A.  Encoder Parameters](#)
     - 5.1 [A.1 Hierarchical coding structure parameters](#)
     - 5.2 [A.2 Thread management parameters](#)
-<br>
-6. [Legal Disclaimer](#)
+7. [Legal Disclaimer](#)
 
 
 
@@ -88,7 +83,7 @@ The list below includes the operating systems that the encoder application and l
 
 The list below includes the build tools necessary for the encoder application and library to build properly.
 
-##### *Windows\* Operating Systems (64-bit)*
+#### *Windows\* Operating Systems (64-bit)*
 
 <u>Build requirements</u>
   - Visual Studio\* 2017
@@ -108,7 +103,7 @@ The list below includes the build tools necessary for the encoder application an
 - Binaries Location
   - Binaries can be found under \<repo dir\>\Bin/Release or \<repo dir\>\Bin/Debug, depending on whether Debug or Release were selected in the build mode
 
-##### *Linux\* Operating Systems (64-bit)*
+#### *Linux\* Operating Systems (64-bit)*
 
 <u>Build requirements</u>
   - GCC 5.4.0
@@ -117,7 +112,7 @@ The list below includes the build tools necessary for the encoder application an
   
 <u>Build instructions</u>
   - In the main repository, run
-    - >mkdir build &amp;&amp; cd build &amp;&amp; cmake .. &amp;&amp; make -j `nproc` &amp;&amp; sudo make install
+    - >mkdir build &amp;&amp; cd build &amp;&amp; cmake .. &amp;&amp; make -j \`nproc\` &amp;&amp; sudo make install
 - Binaries Location
   - Binaries can be found under Bin/Release
 
@@ -164,6 +159,7 @@ This step consists of separating the 10 bit video samples into 8 bit and 2 bit p
 
  ![alt](10bit_unpacked.png)
 
+<br>
 10-bit yuv420p10le unpacked
 
 #### Compress the 2 bit Plane
@@ -326,11 +322,11 @@ The SVT-HEVC Encoder is optimized for use on Xeon® Scalable Processors products
 
 ### Software BKC
 
-##### *10 bit Input YUV*
+#### *10 bit Input YUV*
 
 Due to the large size of 10-bit video, using the compressed YUV format as shown in section 3.2 allows for the best performance of the encoder.
 
-##### *Windows\* OS (Tested on Windows\* Server 2016)*
+#### *Windows\* OS (Tested on Windows\* Server 2016)*
 
 Visual Studio 2017 offers Profile Guided Optimization (PGO) to improve compiler optimization for the application. The tool uses an instrumented build to generate a set of profile information of the most frequently used code and optimal paths. The profile is then used to provide extra information for the compiler to optimize the application. To take advantage of PGO, build using the following:
 
@@ -341,7 +337,7 @@ Visual Studio 2017 offers Profile Guided Optimization (PGO) to improve compiler 
 5. Right click SvtHevcEncApp project from the Solution Explorer -> Profile Guided Optimization -> Run Instrumented/Optimized Application
 6. Right click SvtHevcEncApp project from the Solution Explorer -> Profile Guided Optimization -> Optimize (Repeat for SvtHevcEnc)
 
-##### *Linux\* OS (Tested on Ubuntu\* Server 18.04 and 16.04)*
+#### *Linux\* OS (Tested on Ubuntu\* Server 18.04 and 16.04)*
 
 Some Linux\* Operating systems and kernels assign CPU utilization limits to applications running on servers. Therefore, to allow the application to utilize up to ~100% of the CPUs assigned to it, it is best to run the following commands before and when running the encoder:
 
@@ -358,7 +354,7 @@ LogicalProcessorNumber (-lp) and TargetSocket (-ss) parameters can be used to ma
 
 For example, in order to run a 6-stream 4kp60 simultaneous encode on a Xeon Platinum 8180 system the following command lines should be used:
 
-##### *Running Windows\* Server 2016:*
+#### *Running Windows\* Server 2016:*
 
 >start /node 0 SvtHevcEncApp.exe -encMode 12 -tune 0 -w 3840 -h 2160 -bit-depth 10 -compressed-ten-bit-format 1 -i in.yuv  -rc 1 –tbr 10000000 -fps 60  -b out1.bin   -n 5000 –nb 500
 
@@ -372,7 +368,7 @@ For example, in order to run a 6-stream 4kp60 simultaneous encode on a Xeon Plat
 
 >start /node 1 SvtHevcEncApp.exe -encMode 12 -tune 0  -w 3840 -h 2160 -bit-depth 10 -compressed-ten-bit-format 1 -i in.yuv  -rc 1 –tbr 10000000 -fps 60  -b out5.bin   -n 5000 –nb 500
 
-##### *Running Ubuntu\* 18.04:*
+#### *Running Ubuntu\* 18.04:*
 
 >taskset 0x0000000FFFFFFF0000000FFFFFFF ./SvtHevcEncApp -encMode 12 -tune 0  -w 3840 -h 2160 -bit-depth 10 -compressed-ten-bit-format 1 -i in.yuv  -rc 1 –tbr 10000000 -fps 60  -b out1.bin   -n 5000 –nb 500  &amp;
 
@@ -389,13 +385,13 @@ For example, in order to run a 6-stream 4kp60 simultaneous encode on a Xeon Plat
 <br>
 Similarly, in order to run a 2-stream 8kp50 simultaneous encode on a Xeon Platinum 8180 system the following command lines should be used:
 
-##### *Running Windows\* Server 2016:*
+#### *Running Windows\* Server 2016:*
 
 >start /node 0 SvtHevcEncApp.exe -encMode 12 -tune 0  -w 7680  -h 4320 -bit-depth 10 -compressed-ten-bit-format 1 -i in.yuv  -rc 1 –tbr 20000000 -fps 50  -b out1.bin   -n 5000 –nb 500
 
 >start /node 1 SvtHevcEncApp.exe -encMode 12 -tune 0  -w 7680  -h 4320 -bit-depth 10 -compressed-ten-bit-format 1 -i in.yuv  -rc 1 –tbr 20000000 -fps 50  -b out1.bin   -n 5000 –nb 500
 
-##### *Running Ubuntu 18.04\*:*
+#### *Running Ubuntu 18.04\*:*
 
 >taskset 0x0000000FFFFFFF0000000FFFFFFF ./SvtHevcEncApp -encMode 12 -tune 0  -w 7680  -h 4320 -bit-depth 10 -compressed-ten-bit-format 1 -i in.yuv  -rc 1 –tbr 20000000 -fps 50  -b out1.bin   -n 5000 –nb 500  &amp;
 
