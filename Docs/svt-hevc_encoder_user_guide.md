@@ -143,9 +143,11 @@ This section describes how to run the sample encoder application that uses the S
 The SVT-HEVC Encoder supports the following input formats:
 
 - 8-bit yuv420p
+<br>
 ![alt](8bit_yuv420p.png)
 
 - 10-bit yuv420p10le
+<br>
 ![alt](10bit_yuv420p.png)
  
 
