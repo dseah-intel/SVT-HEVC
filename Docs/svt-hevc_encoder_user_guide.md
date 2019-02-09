@@ -6,34 +6,34 @@
 1. [Introduction](#introduction)
 2. [System Requirements](#system-requirements)
   - 2.1 [CPU requirements](#cpu-requirements)
-    - 2.2 [RAM requirements](#ram-requirements)
-    - 2.3 [Operating systems](#operating-systems)
-      - 2.3.1 [Windows\* Operating Systems (64-bit)](#windows\-operating-systems-64-bit)
-      - 2.3.2 [Linux\* Operating Systems (64-bit)](#linux\-operating-systems-64-bit)
-    - 2.4 [Build the code](#build-the-code)
-      - 2.4.1 [Windows\* Operating Systems (64-bit)](#)
-      - 2.4.2 [Linux\* Operating Systems (64-bit)](#)
-    - 2.5 [Installation](#)
-3. [ Installation](#)
-  - 3.1 [Input Video Format](#)
-  - 3.2 [Compressed 10-bit format](#)
-    - 3.2.1 [Unpack the 10 bit picture](#)
-    - 3.2.2 [Compress the 2 bit Plane](#)
-    - 3.2.3[Unroll the 64x64](#)
-  - 3.3 [Running the encoder](#)
-    - 3.3.1 [List of all configuration parameters](#)
-  - 3.4 [Encoding presets table](#)
-4. [Best Known Configurations (BKC)](#)
-  - 4.1 [Hardware BKC](#)
-  - 4.2 [Software BKC](#)
-    - 4.2.1 [10 bit Input YUV](#)
-    - 4.2.2 [Windows\* OS (Tested on Windows\* Server 2016)](#)
-    - 4.2.3 [Linux\* OS (Tested on Ubuntu\* Server 18.04 and 16.04)](#)
-    - 4.2.4 [Command line BKC](#)
-5. [Appendix A.  Encoder Parameters](#)
-    - 5.1 [A.1 Hierarchical coding structure parameters](#)
-    - 5.2 [A.2 Thread management parameters](#)
-6. [Legal Disclaimer](#)
+  - 2.2 [RAM requirements](#ram-requirements)
+  - 2.3 [Operating systems](#operating-systems)
+    - 2.3.1 Windows\* Operating Systems (64-bit)
+    - 2.3.2 Linux\* Operating Systems (64-bit)
+  - 2.4 [Build the code](#build-the-code)
+    - 2.4.1 Windows\* Operating Systems (64-bit)
+    - 2.4.2 Linux\* Operating Systems (64-bit)
+  - 2.5 [Installation](#installation)
+3. [ Sample Application Guide](#sample-application-guide)
+  - 3.1 [Input Video Format](#input-video-format)
+  - 3.2 [Compressed 10-bit format](#compressed-10-bit-format)
+    - 3.2.1 [Unpack the 10 bit picture](#unpack-the-10-bit-picture)
+    - 3.2.2 [Compress the 2 bit Plane](#compress-the-2-bit-plane)
+    - 3.2.3 [Unroll the 64x64](#unroll-the-64x64)
+  - 3.3 [Running the encoder](#running-the-encoder)
+    - 3.3.1 [List of all configuration parameters](#list-of-all-configuration-parameters)
+  - 3.4 [Encoding presets table](#encoding-presets-table)
+4. [Best Known Configurations (BKC)](#best-known-configurations-bkc)
+  - 4.1 [Hardware BKC](#hardware-bkc)
+  - 4.2 [Software BKC](#software-bkc)
+    - 4.2.1 [10 bit Input YUV](#10-bit-input-yuv)
+    - 4.2.2 Windows\* OS (Tested on Windows\* Server 2016)
+    - 4.2.3 Linux\* OS (Tested on Ubuntu\* Server 18.04 and 16.04)
+    - 4.2.4 [Command line BKC](#command-line-bkc)
+5. [Appendix A Encoder Parameters](#appendix-a-encoder-parameters)
+  - 5.1 [Hierarchical coding structure parameters](#hierarchical-coding-structure-parameters)
+  - 5.2 [Thread management parameters](#thread-management-parameters)
+6. [Legal Disclaimer](#legal-disclaimer)
 
 
 
@@ -67,12 +67,12 @@ In order to run the highest resolution supported by the encoder, at least 64GB o
 
 The list below includes the operating systems that the encoder application and library could run on, assuming the above pre-requisites are met.
 
-##### *Windows\* Operating Systems (64-bit)*
+#### *Windows\* Operating Systems (64-bit)*
 
  - Windows\* 10
   - Windows\* Server 2016 Standard
 
-#####  *Linux\* Operating Systems (64-bit)*
+####  *Linux\* Operating Systems (64-bit)*
 
 - Ubuntu\* 16.04 Desktop LTS
 - Ubuntu\* 16.04 Server LTS
@@ -91,7 +91,7 @@ The list below includes the build tools necessary for the encoder application an
     - Download the yasm exe from the following [link](http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe)
     - Rename yasm-1.3.0-win64.exe to yasm.exe
     - Copy yasm.exe into a location that is in your system PATH environment variable
-  - CMake 3.5 or later[link](https://github.com/Kitware/CMake/releases/download/v3.13.0/cmake-3.13.0-win64-x64.msi)
+  - CMake 3.5 or later [link](https://github.com/Kitware/CMake/releases/download/v3.13.0/cmake-3.13.0-win64-x64.msi)
 
 <u>Build instructions</u>
 - Generate the Visual Studio\* 2017 project files by following the steps below in a windows command line prompt:
@@ -400,7 +400,7 @@ Similarly, in order to run a 2-stream 8kp50 simultaneous encode on a Xeon Platin
 <br>
 Where 0x0000000FFFFFFF0000000FFFFFFF and 0xFFFFFFF0000000FFFFFFF0000000 are masks for sockets 0 and 1 respectively on a dual 8180 system.
 
-## Appendix A.  Encoder Parameters
+## Appendix A Encoder Parameters
 
 ### Hierarchical coding structure parameters
 
