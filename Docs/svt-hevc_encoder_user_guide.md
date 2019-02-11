@@ -98,12 +98,12 @@ The list below includes the build tools necessary for the encoder application an
 <u>Build instructions</u>
 - Generate the Visual Studio\* 2017 project files by following the steps below in a windows command line prompt:
 
-- In the main repository directory go under the \&lt;repo dir\&gt;\Build\windows location
-- Run generate\_vs17.bat [such would generate the visual studio project files]
+- In the main repository directory go under the \<repo dir>\Build\windows location
+- Run <u>generate\_vs17.bat</u> [such would generate the visual studio project files]
 - Open the "<u>svt-hevc.sln</u>" using Visual Studio\* 2017 and click on Build --> Build Solution
 
 - Binaries Location
-  - Binaries can be found under \<repo dir\>\Bin/Release or \<repo dir\>\Bin/Debug, depending on whether Debug or Release were selected in the build mode
+  - Binaries can be found under <u> \<repo dir\>\Bin/Release or \<repo dir\>\Bin/Debug</u>, depending on whether Debug or Release were selected in the build mode
 
 #### *Linux\* Operating Systems (64-bit)*
 
@@ -255,7 +255,7 @@ The encoder parameters present in the Sample.cfg file are listed in this table b
 | **CompressedTenBitFormat** | -compressed-ten-bit-format | [0,1] | 0 | Offline packing of the 2bits: requires two bits packed input (0: OFF, 1: ON) |
 | **SourceWidth** | -w | [64 - 8192] | 0 | Input source width |
 | **SourceHeight** | -h | [64 - 4320] | 0 | Input source height |
-| **FrameToBeEncoded** | -n | [0 - 2^31 -1] | 0 | Number of frames to be encoded, if number of frames is \&gt; number of frames in file, the encoder will loop to the beginning and continue the encode. 0 encodes the full clip. |
+| **FrameToBeEncoded** | -n | [0 - 2^31 -1] | 0 | Number of frames to be encoded, if number of frames is > number of frames in file, the encoder will loop to the beginning and continue the encode. 0 encodes the full clip. |
 | **BufferedInput** | -nb | [-1, 1 to 2^31 -1] | -1 | number of frames to preload to the RAM before the start of the encode. If -nb = 100 and –n 1000 --> the encoder will encode the first 100 frames of the video 10 times. Use -1 to not preload any frames. |
 | **Profile** | -profile | [1,2] | 2 | 1: Main, 2: Main 10 |
 | **Tier** | -tier | [0,1] | 0 | 0: Main, 1: High |
