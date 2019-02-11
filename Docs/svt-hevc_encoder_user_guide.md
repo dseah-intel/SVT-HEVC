@@ -1,4 +1,5 @@
 
+
   
 
 # Scalable Video Technology for HEVC Encoder (SVT-HEVC Encoder) User Guide
@@ -143,9 +144,9 @@ This section describes how to run the sample encoder application that uses the S
 
 The SVT-HEVC Encoder supports the following input formats:
 
-- 8-bit yuv420p
+8-bit yuv420p
 <br>
-![alt](8bit_yuv420p.png)
+![alt](8bit_yuv420p_1.png)
 
 <br>
 
