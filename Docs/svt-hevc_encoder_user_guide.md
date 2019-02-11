@@ -147,6 +147,7 @@ The SVT-HEVC Encoder supports the following input formats:
 <br>
 ![alt](8bit_yuv420p.png)
 
+<br>
 
 10-bit yuv420p10le
 <br>
